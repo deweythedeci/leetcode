@@ -1,6 +1,6 @@
 from typing import List
 
-# this shit dont work
+# incomplete
 
 class Solution:
     def findSubsequences(self, nums: List[int]) -> List[List[int]]:
