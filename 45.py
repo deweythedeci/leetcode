@@ -1,20 +1,23 @@
 from typing import List
 
-# functional but slow
+# warning!
+# undefined behavior if end of list is unreachable
 
 class Solution:
     def jump(self, nums: List[int]) -> int:
-        if len(nums) == 1:
-            return 0
-        return self.jumpHelper(nums, 0, 0)
+        jumps, pos_s, pos_e = 0, 0, 1
+        while pos_e < len(nums):
+            tmp = pos_e
+            pos_e = max(self.add_arr(nums[pos_s:pos_e], range(pos_s, pos_e))) + 1
+            pos_s = tmp
+            jumps += 1
+        return jumps
 
-    def jumpHelper(self, nums, idx, jumps):
-        if idx >= len(nums) - 1:
-            return jumps
-        ret = 9999
-        for i in range(1,nums[idx]+1):
-            ret = min(ret, self.jumpHelper(nums, idx+i, jumps+1))
-        return ret
+    def add_arr(self, arr1, arr2):
+        new_arr = []
+        for i in range(0, len(arr1)):
+            new_arr.append(arr1[i] + arr2[i])
+        return new_arr
 
 s = Solution()
 io = input("nums: ")
