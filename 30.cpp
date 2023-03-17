@@ -1,39 +1,26 @@
 #include <iostream>
 #include <vector>
+#include <string>
+#include <math.h>
 using namespace std;
 
 template<typename T>
 void printVector(vector<T>& v);
-bool is_concat_substr(string s, vector<string>& words);
 
-// works but too slow
+// incomplete
 
 vector<int> findSubstring(string s, vector<string>& words) {
-    int word_len = words.at(0).length();
-    int substr_len = word_len * words.size();
-    vector<int> substrings = vector<int>();
+    int word_len = words[0].length();
+    int words_len = words.size();
     int idx = 0;
-    while(idx + substr_len <= s.length()){
-        if(is_concat_substr(s.substr(idx, substr_len), words)){
-            substrings.push_back(idx);
+    int used = 0;
+    int used_n = 1 << words_len;
+    while(true){
+        while(used < used_n){
+            if(s.substr(idx, idx+word_len));
         }
-        idx++;
     }
     return substrings;
-}
-
-bool is_concat_substr(string s, vector<string>& words){
-    vector<string> words_cp = vector<string>(words);
-    if(s.length() == 0 || words.size() == 0){
-        return s.length() == 0 && words.size() == 0;
-    }
-    for(int i = 0; i < words.size(); i++){
-        if(s.substr(0, words.at(0).length()) == words.at(i)){
-            words_cp.erase(words_cp.begin() + i);
-            return is_concat_substr(s.substr(words.at(0).length()), words_cp);
-        }
-    }
-    return false;
 }
 
 template<typename T>

@@ -1,79 +1,36 @@
 #include <iostream>
-#include <vector>
-#include <variant>
-#include <tuple>
 using namespace std;
 
-int findNumEnd(string s, int idx);
-
-// totally works but uses too much memory
+// incomplete
 
 int longestValidParentheses(string s) {
-    cout << s << endl;
-    int i = 1;
+    int i = 0;
+    int j = 0;
     int max = 0;
-    while(i < s.length()){
-        if(s[i-1] == '('){
-            if(s[i] == ')'){
-                s = s.substr(0,i-1) + ".2" + s.substr(i+1);
-                return longestValidParentheses(s);
-            }
-            else if(s[i] == '.'){
-                int iend = findNumEnd(s,i+1);
-                if(s[iend] == '(' || s[iend] == '\0'){
-                    int a = stoi(s.substr(i+1,iend));
-                    if(max < a){
-                        max = a;
-                    }
-                    i = iend;
-                    continue;
-                }
-                if(s[iend] == ')'){
-                    int a = stoi(s.substr(i+1,iend));
-                    s = s.substr(0, i-1) + '.' + to_string(a+2) + s.substr(iend+1);
-                    return longestValidParentheses(s);
-                }
-                else if(s[iend] == '.'){
-                    int iend2 = findNumEnd(s,iend+1);
-                    int a = stoi(s.substr(i+1,iend));
-                    int b = stoi(s.substr(iend+1,iend2));
-                    s = s.substr(0, i) + '.' + to_string(a+b) + s.substr(iend2);
-                    return longestValidParentheses(s);
-                }
-            }
+    int count = 0;
+    int curr = 0;
+    while(j <= s.length()){
+        cout << i << ' ' << j << ' ' << count << ' ' << curr << endl;
+        if(!count && (j-i)){
+            curr += (j-i);
+            i = j;
+            max = curr > max ? curr : max;
         }
-        else if(s[i-1] == '.'){
-            int iend = findNumEnd(s,i);
-            if(s[iend] == '(' || s[iend] == ')' || s[iend] == '\0'){
-                int a = stoi(s.substr(i,iend));
-                if(max < a){
-                    max = a;
-                }
-                i = iend;
-                continue;
-            }
-            else if(s[iend] == '.'){
-                int iend2 = findNumEnd(s,iend+1);
-                int a = stoi(s.substr(i,iend));
-                int b = stoi(s.substr(iend+1,iend2));
-                s = s.substr(0, i-1) + '.' + to_string(a+b) + s.substr(iend2);
-                return longestValidParentheses(s);
-            }
+        else if(count < 0){
+            i = j;
+            curr = 0;
+            count = 0;
         }
-        i++;
+        else{
+            if(s[j] == '(') count++;
+            else if(s[j] == ')') count--;
+            j++;  
+        }
+    }
+    while(i <= s.length()){
+        
     }
     return max;
-}
-
-int findNumEnd(string s, int idx){
-    int iend = idx;
-    while(iend < s.length()){
-        if(s[iend] == '(' || s[iend] == ')' || s[iend] == '.'){
-            break;
-        }
-        iend++;
-    }
-    return iend;
 }
 
 int main(int argc, char** argv){
