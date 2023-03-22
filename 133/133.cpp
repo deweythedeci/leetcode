@@ -1,6 +1,6 @@
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -24,19 +24,20 @@ public:
     friend ostream& operator<<(ostream& os, const Node& node);
 };
 Node* cloneGraph(Node* node);
-Node* cloneGraph(Node* node, map<Node*, Node*>* m);
+Node* cloneGraph(Node* node, unordered_map<Node*, Node*>* m);
 Node* createGraph(int* vals, int** edges, int n);
 void bfs(Node* node);
 void freeGraph(Node* node);
 
 Node* cloneGraph(Node* node) {
-    map<Node*, Node*>* m = new map<Node*, Node*>();
+    if(!node) return nullptr;
+    unordered_map<Node*, Node*>* m = new unordered_map<Node*, Node*>();
     node = cloneGraph(node, m);
     delete m;
     return node;
 }
 
-Node* cloneGraph(Node* node, map<Node*, Node*>* m) {
+Node* cloneGraph(Node* node, unordered_map<Node*, Node*>* m) {
     if(m->find(node) != m->end()) return (*m)[node];
     (*m)[node] = new Node(node->val);
     for(Node* neighbor : node->neighbors){
@@ -70,7 +71,7 @@ Node* createGraph(int* vals, int* edges, int n){
 }
 
 void bfs(Node* node){
-    map<Node*, int> colors = map<Node*, int>();
+    unordered_map<Node*, int> colors = unordered_map<Node*, int>();
     queue<Node*> queue;
     queue.push(node);
     colors[node] = 1;
@@ -88,7 +89,7 @@ void bfs(Node* node){
 }
 
 void freeGraph(Node* node){
-    map<Node*, int> colors = map<Node*, int>();
+    unordered_map<Node*, int> colors = unordered_map<Node*, int>();
     queue<Node*> queue;
     queue.push(node);
     colors[node] = 1;
