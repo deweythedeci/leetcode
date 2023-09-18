@@ -9,26 +9,43 @@ int longestValidParentheses(string s) {
     int max = 0;
     int count = 0;
     int curr = 0;
-    while(j <= s.length()){
-        cout << i << ' ' << j << ' ' << count << ' ' << curr << endl;
-        if(!count && (j-i)){
-            curr += (j-i);
-            i = j;
-            max = curr > max ? curr : max;
-        }
-        else if(count < 0){
-            i = j;
-            curr = 0;
-            count = 0;
+    bool up = true;
+    while(i < s.length()){
+        if(up){
+            if(j == s.length()){
+                break;
+            }
+            else if(s[j] == '('){
+                count++;
+                j++;
+            }
+            else{
+                up = false;
+            }
         }
         else{
-            if(s[j] == '(') count++;
-            else if(s[j] == ')') count--;
-            j++;  
+            if(count < 0){
+                i = j;
+                curr = 0;
+                count = 0;
+            }
+            if(!count){
+                up = true;
+                curr += (j-i);
+                i = j;
+                max = curr > max ? curr : max;
+            }
+            else if(j == s.length() || s[j] == '('){
+                up = true;
+                i = j;
+                curr = 0;
+                count = 0;
+            }
+            else if(s[j] == ')'){
+                count--;
+                j++;
+            }
         }
-    }
-    while(i <= s.length()){
-        
     }
     return max;
 }
