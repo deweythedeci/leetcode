@@ -1,0 +1,21 @@
+loop
+    when going up
+        if close paren
+            switch to down
+        if open paren
+            count + 1
+            end + 1
+        if end of string
+            break
+    when going down
+        if negative count
+
+        if zero count
+            add to curr
+            update max
+        if close paren
+            count - 1
+            end + 1
+        if end of string or open paren
+            count - 1
+            start + 1

@@ -1,0 +1,8 @@
+Node* cloneGraph(Node* node, HashTable* cloned)
+    clone = cloned->lookup(node) // lookup for clone in hashtable
+    if (clone != NULL) // if already created just return clone
+        return clone
+    clone = new Node(node->val, NULL) // otherwise create new clone
+    for(Node* neighbor in node->neighbors)
+        clone->neigbors.add(cloneGraph(neighbor), cloned) // recurse to create neighbors
+    return clone
